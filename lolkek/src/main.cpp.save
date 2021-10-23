@@ -1,0 +1,34 @@
+#include <iostream>
+#include "ros/ros.h"
+#include <fstream>
+#include <std_msgs/Int32.h>
+using namespace std;
+
+ros::Publisher* publisher;
+
+void callBack(const std_msgs::Int32::ConstPtr& msg ){
+	cout << msg -> data << endl;
+    std_msgs::Int32 tmp;
+    tmp.data=msg->data;
+    publisher->publish(tmp);
+    ros::spinOnce();
+	//ROS_INFO("data is: [%d]", msg -> data);
+}
+
+int main(int argc, char **argv){
+
+ros::init(argc,argv,"keklol");
+ros::NodeHandle nh;
+
+ros::Publisher chatter_pub = nh.advertise<std_msgs::Int32>("raspberry", 1000);
+publisher =&chatter_pub;
+
+
+ros::Subscriber forFirst=nh.subscribe", 1000, callBack); 
+
+while(ros::ok()){
+
+	ros::spinOnce();
+}
+
+}

@@ -1,0 +1,40 @@
+#include <iostream>
+#include "ros/ros.h"
+#include <sensor_msgs/LaserScan.h>
+#include <fstream>
+#include <std_msgs/Int32.h>
+
+using namespace std;
+string idk = "";
+ros::Publisher* publisher;
+
+
+
+void scan_callback(const sensor_msgs::LaserScan::ConstPtr& msg){
+	//cout << msg -> ranges << endl;
+    	//std_msgs::Int32 tmp;
+    	//tmp.data=msg->data;
+    	for(int i = 0; i < msg -> intensities.range; i++){
+    		idk += to_string(msg -> intensities[i]) + ", ";
+    	}
+	ROS_INFO("data is: [%s]"<< msg -> intensities); 
+	//ros::spinOnce();
+}
+
+int main(int argc, char **argv){
+
+ros::init(argc,argv,"keklol");
+ros::NodeHandle nh;
+/*
+ros::Publisher chatter_pub = nh.advertise<std_msgs::Int32>("command", 1000);
+publisher = &chatter_pub;
+*/
+
+ros::Subscriber Lidar = nh.subscribe("/scan", 1000, scan_callback); 
+
+while(ros::ok()){
+
+	ros::spinOnce();
+}
+
+}
